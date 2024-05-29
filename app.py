@@ -24,13 +24,12 @@ def get_db_connection():
     return conn
 
 
-
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
     if request.method == 'POST':
         email = request.form["email"]
         password = request.form["password"]
-        confirmPassword = request.form["confirmpassword"]  # Corrected name
+        confirmpassword = request.form["confirmpassword"]  # Corrected name
         hashed_password = generate_password_hash(password)
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -41,7 +40,7 @@ def signin():
         elif not re.match(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
             flash("Email invalide !", 'info')
             return redirect(url_for('signin'))
-        elif password != confirmPassword:
+        elif password != confirmpassword:
             flash("Les mots de passe ne correspondent pas !", 'info')
             return redirect(url_for('signin'))
         else:
@@ -52,6 +51,7 @@ def signin():
             return redirect(url_for('home') + '?signup=success')
 
     return render_template("home.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
