@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/initialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Job-scraping - Login</title>
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="nav_logo">CodingLab</a>
+
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="#" class="nav_link">Home</a>
+                    <a href="#" class="nav_link">Product</a>
+                    <a href="#" class="nav_link">Services</a>
+                    <a href="#" class="nav_link">Contact</a>
+                </li>
+            </ul>
+
+            <button class="button" id="form-open">
+                <a href="{{url_for('login')}}">Login</a>
+            </button>
+            <button class="button" id="form-open">
+                <a href="{{url_for('signin')}}">Signup</a>
+            </button>
+        </nav>
+    </header>
+
+    <section class="home">
+        <div class="form_container">
+            <i class="uil uil-times form_close"></i>
+            {% block content %}{% endblock %}
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/registration.js') }}"></script>
+</body>
+</html>

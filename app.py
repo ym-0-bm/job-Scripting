@@ -5,14 +5,11 @@ import re
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'clés_flash'
-conn = pymysql.connect(
-    host=app.config['localhost'],
-    user=app.config['user'],
-    password=app.config['password'],
-    db=app.config['job-scraper'],
-    cursorclass=pymysql.cursors.DictCursor
-)
+app.config['MYSQL_HOST'] = 'db'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'job_scraper'
+app.config['SECRET_KEY'] = 'secret key'
 
 
 # Initialisation de la login MySQL
@@ -27,38 +24,34 @@ def get_db_connection():
     return conn
 
 
+
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
     if request.method == 'POST':
-        user = request.form["nomuser"]
-        email = request.form["mail"]
+        email = request.form["email"]
         password = request.form["password"]
+        confirmPassword = request.form["confirmpassword"]  # Corrected name
         hashed_password = generate_password_hash(password)
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Users WHERE NomUser = ? OR Email = ?', (user, email))
-        users = cursor.fetchall()
+        cursor.execute('SELECT * FROM Users WHERE email = %s', (email,))
+        users = cursor.fetchone()
         if users:
-            flash("ce compte existe déjà !", 'info')
-        elif not re.match(r'[a-zA-Z0-9]+$', user):
-            flash("Le nom d'utilisateur ne doit contenir que des lettres et des chiffres !", 'info')
-            return redirect(url_for('signin'))
+            flash("Ce compte existe déjà !", 'info')
         elif not re.match(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
-            flash("Email Invalid !", 'info')
+            flash("Email invalide !", 'info')
+            return redirect(url_for('signin'))
+        elif password != confirmPassword:
+            flash("Les mots de passe ne correspondent pas !", 'info')
             return redirect(url_for('signin'))
         else:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute('''
-                INSERT INTO Users (NomUser, Email, Password)
-                VALUES ( ?, ?, ?)
-             ''', (user, email, hashed_password))
+            cursor.execute('INSERT INTO Users (email, passwd) VALUES (%s, %s)', (email, hashed_password))
             conn.commit()
             conn.close()
             flash("Votre compte a été enregistré avec succès !", 'info')
-            return redirect(url_for('login'))
-    return render_template("/registration/signin.html")
+            return redirect(url_for('home') + '?signup=success')
 
+    return render_template("home.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -67,7 +60,7 @@ def login():
         password = request.form["password"]
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Users WHERE NomUser = ? OR Email = ?', (user, user))
+        cursor.execute('SELECT * FROM Users WHERE NomUser = %s OR Email = %s', (user, user))
         users = cursor.fetchone()
         if users:
             user_pswd = users[3]
@@ -81,15 +74,13 @@ def login():
                 return redirect(url_for('login'))
         else:
             flash("Identifiant incorrect !", 'info')
-            return redirect(url_for('login'))
-    return render_template("/registration/login.html")
+            return redirect(url_for('home'))
+    return render_template("home.html")
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    if 'loggedin' in session:
-        return render_template("/login/accueil.html", username=session['username'], title="accueil")
-    return redirect(url_for('login'))
+    return render_template("home.html")
 
 
 @app.route("/logout")
