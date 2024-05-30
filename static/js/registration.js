@@ -83,3 +83,14 @@ function checkSignupSuccess() {
 
 // Appeler la fonction pour vérifier l'état de l'inscription
 checkSignupSuccess();
+
+function checkSignupFail() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('signup') && urlParams.get('signup') === 'fail') {
+    formContainer.classList.remove("active"); // Afficher le formulaire de connexion
+    home.classList.add("show"); // Assurer que le popup est affiché
+  }
+}
+
+// Appeler la fonction pour vérifier l'état de l'inscription
+checkSignupFail();

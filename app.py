@@ -29,20 +29,21 @@ def signin():
     if request.method == 'POST':
         email = request.form["email"]
         password = request.form["password"]
-        confirmpassword = request.form["confirmpassword"]  # Corrected name
+        confirmpassword = request.form["confirmpassword"]
         hashed_password = generate_password_hash(password)
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Users WHERE email = %s', (email,))
+        cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
         users = cursor.fetchone()
         if users:
             flash("Ce compte existe déjà !", 'info')
+            return redirect(url_for('home') + '?signup=fail')
         elif not re.match(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
             flash("Email invalide !", 'info')
-            return redirect(url_for('signin'))
+            return redirect(url_for('home') + '?signup=fail')
         elif password != confirmpassword:
             flash("Les mots de passe ne correspondent pas !", 'info')
-            return redirect(url_for('signin'))
+            return redirect(url_for('home') + '?signup=fail')
         else:
             cursor.execute('INSERT INTO Users (email, passwd) VALUES (%s, %s)', (email, hashed_password))
             conn.commit()
@@ -60,27 +61,38 @@ def login():
         password = request.form["password"]
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Users WHERE NomUser = %s OR Email = %s', (user, user))
+        cursor.execute('SELECT * FROM Users WHERE email = %s', user)
+
+        print(f"User:{user}")
+        print(f"Password: {password}")
+
         users = cursor.fetchone()
-        if users:
-            user_pswd = users[3]
-            if check_password_hash(user_pswd, password):
-                session['loggedin'] = True
-                session['Id'] = users[0]
-                session['username'] = users[1]
-                return redirect(url_for('accueil'))
-            else:
-                flash("Mot de passe incorrect !", 'info')
-                return redirect(url_for('login'))
-        else:
-            flash("Identifiant incorrect !", 'info')
-            return redirect(url_for('home'))
-    return render_template("home.html")
+
+        print(users)
+        # if users:
+        #     user_pswd = users[1]
+        #     if check_password_hash(user_pswd, password):
+        #         session['loggedin'] = True
+        #         session['Id'] = users[0]
+        #         session['username'] = users[1]
+        #         return redirect(url_for('accueil'))
+        #     else:
+        #         flash("Mot de passe incorrect !", 'info')
+        #         return redirect(url_for('home'))
+        # else:
+        #     flash("Identifiant incorrect !", 'info')
+        #     return redirect(url_for('home'))
+    return redirect(url_for('home'))
 
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     return render_template("home.html")
+
+
+@app.route("/accueil", methods=["GET", "POST"])
+def acceuil():
+    return 'hey, Welcome !'
 
 
 @app.route("/logout")

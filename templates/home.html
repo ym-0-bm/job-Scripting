@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/initialize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Job-scraping - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <!-- Unicons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
 </head>
@@ -34,14 +35,25 @@
             <!-- Login Form -->
             <div class="form login_form">
                 <form action="{{url_for('login')}}" method="POST">
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
                     <h2>Login</h2>
 
                     <div class="input_box">
-                        <input type="text" name="identifiant" placeholder="Enter your username or email" required />
+                        <input type="text" name="identifiant" placeholder="Entrer votre Email ou numéro" required />
                         <i class="uil uil-envelope-alt email"></i>
                     </div>
                     <div class="input_box">
-                        <input type="password" name="password" placeholder="Enter your password" required />
+                        <input type="password" name="password" placeholder="Entrer votre mot de passe" required />
                         <i class="uil uil-lock password"></i>
                         <i class="uil uil-eye-slash pw_hide"></i>
                     </div>
@@ -63,6 +75,17 @@
             <!-- Signup Form -->
             <div class="form signup_form">
                 <form action="{{url_for('signin')}}" method="POST">
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
                     <h2>Signup</h2>
 
                     <div class="input_box">
@@ -73,6 +96,7 @@
                         <input type="password" name="password" placeholder="Create password" required />
                         <i class="uil uil-lock password"></i>
                         <i class="uil uil-eye-slash pw_hide"></i>
+                        <i class="fa-solid fa-eye"></i>
                     </div>
                     <div class="input_box">
                         <input type="password" name="confirmpassword" placeholder="Confirm password" required />
