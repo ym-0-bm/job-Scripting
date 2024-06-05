@@ -62,26 +62,26 @@ def login():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM Users WHERE email = %s', user)
-
-        print(f"User:{user}")
-        print(f"Password: {password}")
+        #
+        # print(f"User:{user}")
+        # print(f"Password: {password}")
 
         users = cursor.fetchone()
 
-        print(users)
-        # if users:
-        #     user_pswd = users[1]
-        #     if check_password_hash(user_pswd, password):
-        #         session['loggedin'] = True
-        #         session['Id'] = users[0]
-        #         session['username'] = users[1]
-        #         return redirect(url_for('accueil'))
-        #     else:
-        #         flash("Mot de passe incorrect !", 'info')
-        #         return redirect(url_for('home'))
-        # else:
-        #     flash("Identifiant incorrect !", 'info')
-        #     return redirect(url_for('home'))
+        # print(users)
+        if users:
+            user_pswd = users['passwd']
+            if check_password_hash(user_pswd, password):
+                session['loggedin'] = True
+                session['Id'] = users['id']
+                session['email'] = users['email']
+                return redirect(url_for('accueil'))
+            else:
+                flash("Mot de passe incorrect !", 'info')
+                return redirect(url_for('home') + '?login=fail')
+        else:
+            flash("Identifiant incorrect !", 'info')
+            return redirect(url_for('home') + '?login=fail')
     return redirect(url_for('home'))
 
 
@@ -91,15 +91,15 @@ def home():
 
 
 @app.route("/accueil", methods=["GET", "POST"])
-def acceuil():
-    return 'hey, Welcome !'
+def accueil():
+    return render_template("accueil.html")
 
 
 @app.route("/logout")
 def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
-    session.pop('username', None)
+    session.pop('email', None)
     return redirect(url_for('login'))
 
 
