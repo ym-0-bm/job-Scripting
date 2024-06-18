@@ -1,0 +1,64 @@
+### Réadaptation du Programme
+
+#### Semaine 1 (11 juin - 14 juin) : Configuration de Selenium et scraping des données
+- **Mardi (11 juin) :**
+  - Installer et configurer Selenium.
+  - Choisir les sites d'offres d'emploi à scraper et vérifier leur politique de scraping.
+  - Écrire le script de scraping avec Selenium pour le premier site.
+- **Mercredi (12 juin) :**
+  - Tester et déboguer le script de scraping.
+  - Ajouter des fonctionnalités pour stocker les données scrappées dans la base de données MySQL.
+- **Jeudi (13 juin) :**
+  - Intégrer le script de scraping dans l'application Flask.
+  - Configurer l'automatisation du scraping (tâches cron ou Celery).
+- **Vendredi (14 juin) :**
+  - Implémenter les fonctionnalités pour afficher les offres d'emploi scrappées sur le site web.
+  - Tests et débogage.
+
+#### Semaine 2 (17 juin - 21 juin) : Développement du système de recommandation
+- **Lundi (17 juin) :**
+  - Recherche sur les algorithmes de recommandation.
+  - Sélection d'un algorithme adapté.
+- **Mardi (18 juin) :**
+  - Développement du modèle de recommandation.
+  - Entraînement du modèle avec des données d'exemple.
+- **Mercredi (19 juin) :**
+  - Intégration du modèle de recommandation dans l'application Flask.
+  - Création d'une route pour fournir des recommandations d'offres d'emploi.
+- **Jeudi (20 juin) :**
+  - Test du système de recommandation.
+  - Affichage des recommandations sur l'interface utilisateur.
+- **Vendredi (21 juin) :**
+  - Optimisation et amélioration du modèle de recommandation.
+
+#### Semaine 3 (24 juin - 28 juin) : Interface utilisateur et amélioration de l'UX/UI
+- **Lundi (24 juin) :**
+  - Conception des wireframes et des maquettes pour l'interface utilisateur.
+- **Mardi (25 juin) :**
+  - Développement des pages web pour afficher les offres d'emploi et les recommandations.
+- **Mercredi (26 juin) :**
+  - Amélioration des formulaires de connexion et d'inscription.
+  - Implémentation des fonctionnalités de recherche et de filtrage des offres d'emploi.
+- **Jeudi (27 juin) :**
+  - Intégration des maquettes et des designs dans le code existant.
+  - Amélioration de l'accessibilité et de la réactivité du site web.
+- **Vendredi (28 juin) :**
+  - Tests utilisateur pour recueillir des feedbacks sur l'interface et l'expérience utilisateur.
+  - Ajustements et corrections basés sur les retours des tests utilisateurs.
+
+#### Semaine 4 (1 juillet - 5 juillet) : Tests finaux, déploiement et préparation de la soutenance
+- **Lundi (1 juillet) :**
+  - Test de bout en bout de toutes les fonctionnalités.
+  - Correction des bugs et optimisation des performances.
+- **Mardi (2 juillet) :**
+  - Tests de charge et de performance.
+  - Préparation de l'environnement de production.
+- **Mercredi (3 juillet) :**
+  - Mise en place de la CI/CD pour le déploiement automatisé.
+  - Documentation du processus de déploiement.
+- **Jeudi (4 juillet) :**
+  - Déploiement de l'application sur un serveur de production.
+  - Test post-déploiement pour s'assurer que tout fonctionne comme prévu.
+- **Vendredi (5 juillet) :**
+  - Préparation de la présentation pour la soutenance.
+  - Révision finale et répétition de la soutenance.

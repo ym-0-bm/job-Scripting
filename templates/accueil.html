@@ -1,1 +1,19 @@
-<h1>hey, Welcome ! {{ session['email'] }}</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/initialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Job-scraping - Offres d'emploi en Côte d'Ivoire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <!-- Unicons -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Offres d'emploi en Côte d'Ivoire</h1>
+        <div id="job-listings" class="job-listings"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
