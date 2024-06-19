@@ -9,8 +9,16 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 def scrape_job_offers(url):
-    # Initialiser le navigateur Chrome
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    # Initialiser les options de Chrome
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--remote-debugging-port=9222')
+
+    # Initialiser le navigateur Chrome avec les options
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
     try:
         # Ouvrir la page URL
@@ -62,8 +70,11 @@ def scrape_job_offers(url):
         # Afficher le DataFrame (optionnel)
         print(df)
 
+        return jobs_data
+
     except TimeoutException:
         print("Le chargement des offres d'emploi a pris trop de temps.")
+        return []
     finally:
         # Fermer le navigateur
         driver.quit()
