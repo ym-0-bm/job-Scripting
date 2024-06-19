@@ -3,7 +3,7 @@ import pymysql.cursors
 import datetime
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
-from scraper.py import scrape_job_offers
+from scrapper import scrape_job_offers
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'db'
@@ -93,11 +93,17 @@ def home():
 
 @app.route("/accueil", methods=["GET", "POST"])
 def accueil():
-    # Appel de la fonction de scraping
-    url = "https://www.emploi.ci/recherche-jobs-cote-ivoire/data"
-    scrape_job_offers(url)
+    # Récupérer les données depuis la base de données
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM job_offers')
+    jobs = cursor.fetchall()
+    conn.close()
 
-    return render_template("accueil.html")
+    # Passer les données à job_offers.html pour l'affichage
+    return render_template("accueil.html", jobs=jobs)
+
+
 
 @app.route("/logout")
 def logout():

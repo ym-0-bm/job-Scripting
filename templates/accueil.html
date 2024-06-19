@@ -4,16 +4,38 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/initialize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>Job-scraping - Offres d'emploi en Côte d'Ivoire</title>
+    <title>Job-scraping - Liste des Offres d'Emploi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <!-- Unicons -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
 </head>
 <body>
     <div class="container">
-        <h1>Offres d'emploi en Côte d'Ivoire</h1>
-        <div id="job-listings" class="job-listings"></div>
+        <h1>Liste des Offres d'Emploi</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Entreprise</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Compétences</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr>
+                    <td>{{ job.title }}</td>
+                    <td>{{ job.company }}</td>
+                    <td>{{ job.description }}</td>
+                    <td>{{ job.date }}</td>
+                    <td>{{ job.location }}</td>
+                    <td>{{ job.skills }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>

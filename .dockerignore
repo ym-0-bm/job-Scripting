@@ -1,5 +1,35 @@
 # .dockerignore
+
+# Git
 .git
-node_modules
-tmp
-*.log
+.gitignore
+
+# IDE
+.idea
+
+# Python
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info
+dist
+build
+.eggs
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# Environments
+.env
+.venv
+
+# Data
+data
+mysql
+
+# System
+Thumbs.db
+.DS_Store
+

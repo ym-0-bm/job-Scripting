@@ -43,4 +43,12 @@ CREATE TABLE users(
     saved_at DATETIME,
     FOREIGN KEY(user_id) REFERENCES users(id),
     FOREIGN KEY(job_id) REFERENCES jobs(id)
+);CREATE TABLE job_offers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(240),
+    company VARCHAR(230),
+    description TEXT,
+    date DATETIME,
+    location VARCHAR(230),
+    skills TEXT
 );
