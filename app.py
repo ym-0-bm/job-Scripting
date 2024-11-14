@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, url_for, flash, redirect, session, jsonify
+from flask import Flask, render_template, request, url_for, flash, redirect, session
 import pymysql.cursors
-import datetime
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
 from scrapper import scrape_job_offers
@@ -13,7 +12,7 @@ app.config['MYSQL_DB'] = 'job_scraper'
 app.config['SECRET_KEY'] = 'secret key'
 
 
-# Initialisation de la login MySQL
+# Initialisation de la connexion MySQL
 def get_db_connection():
     conn = pymysql.connect(
         host=app.config['MYSQL_HOST'],
@@ -23,28 +22,6 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor
     )
     return conn
-
-
-# @app.route("/scrape")
-# def scrape():
-#     url = "https://www.emploi.ci/recherche-jobs-cote-ivoire/data"
-#     jobs_data = scrape_job_offers(url)
-#
-#     conn = get_db_connection()
-#     cursor = conn.cursor()
-#
-#     for job_data in jobs_data:
-#         cursor.execute(
-#             '''
-#             INSERT INTO job_offers (title, company, description, date, location, skills)
-#             VALUES (%s, %s, %s, %s, %s, %s)
-#             ''',
-#             (job_data['title'], job_data['company'], job_data['description'], job_data['date'], job_data['location'],
-#              ','.join(job_data['skills'])))
-#
-#     conn.commit()
-#     conn.close()
-#     return jsonify({"message": "Scraping completed and data stored in database."})
 
 
 @app.route("/signin", methods=["GET", "POST"])
@@ -85,13 +62,7 @@ def login():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM Users WHERE email = %s', user)
-        #
-        # print(f"User:{user}")
-        # print(f"Password: {password}")
-
         users = cursor.fetchone()
-
-        # print(users)
         if users:
             user_pswd = users['passwd']
             if check_password_hash(user_pswd, password):
@@ -115,31 +86,18 @@ def home():
 
 @app.route("/accueil", methods=["GET", "POST"])
 def accueil():
-    # Récupérer les données depuis la base de données
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM job_offers')
     jobs = cursor.fetchall()
     conn.close()
-
-    # Passer les données à job_offers.html pour l'affichage
     return render_template("accueil.html", jobs=jobs)
 
 
-@app.route("/scrape", methods=["GET"])
+@app.route('/scrape')
 def scrape():
-    url = "https://www.emploi.ci/recherche-jobs-cote-ivoire/data"
-    jobs_data = scrape_job_offers(url)
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    for job_data in jobs_data:
-        cursor.execute('''INSERT INTO job_offers (title, company, description, date, location, skills) 
-                          VALUES (%s, %s, %s, %s, %s, %s)''',
-                       (job_data['title'], job_data['company'], job_data['description'], job_data['date'], job_data['location'], ','.join(job_data['skills'])))
-    conn.commit()
-    conn.close()
-    return redirect(url_for('accueil'))
-
+    scrape_job_offers()
+    return "Scraping job has been executed."
 
 
 @app.route("/logout")

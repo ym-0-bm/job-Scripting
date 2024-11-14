@@ -62,3 +62,14 @@
 - **Vendredi (5 juillet) :**
   - Préparation de la présentation pour la soutenance.
   - Révision finale et répétition de la soutenance.
+
+------------------------un résumé------------------------------------------------------------------------------------------------------
+
+  1. Fonctionnalités de l'application web
+Finaliser l'affichage des offres d'emploi scrapées dans l'interface utilisateur.
+Ajouter des fonctionnalités de recherche et de filtrage des offres d'emploi.
+Mettre en place une interface utilisateur pour la gestion des utilisateurs (modification des informations, suppression de compte).
+2. Sécurité et gestion des utilisateurs
+Ajouter la gestion des sessions utilisateur.
+Mettre en place un système de récupération de mot de passe.
+Améliorer la validation des données utilisateur.
